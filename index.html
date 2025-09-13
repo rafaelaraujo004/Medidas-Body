@@ -1,0 +1,114 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Perimetria & Evolução</title>
+  <link rel="stylesheet" href="styles.css" />
+  <link rel="manifest" href="manifest.json">
+  <meta name="theme-color" content="#0b6">
+  <!-- Chart.js CDN -->
+  <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
+</head>
+<body>
+  <header>
+    <h1>Perimetria & Evolução</h1>
+    <p class="sub">Registre medidas, visualize evolução e veja o avatar com medidas.</p>
+  </header>
+
+  <main class="container">
+    <section class="left">
+      <form id="measureForm">
+        <h2>Novo registro</h2>
+        <div class="row">
+          <label>Data <input type="date" id="date" required></label>
+          <label>Peso (kg) <input type="number" step="0.1" id="peso" required></label>
+        </div>
+
+        <h3>Perimetria (cm)</h3>
+        <div class="grid">
+          <label>Peito <input id="peito" type="number" step="0.1"></label>
+          <label>Cintura <input id="cintura" type="number" step="0.1"></label>
+          <label>Quadril <input id="quadril" type="number" step="0.1"></label>
+          <label>Abdômen <input id="abdomen" type="number" step="0.1"></label>
+
+          <label>Braço D <input id="bracoD" type="number" step="0.1"></label>
+          <label>Braço E <input id="bracoE" type="number" step="0.1"></label>
+
+          <label>Coxa D <input id="coxaD" type="number" step="0.1"></label>
+          <label>Coxa E <input id="coxaE" type="number" step="0.1"></label>
+
+          <label>Panturrilha D <input id="pantD" type="number" step="0.1"></label>
+          <label>Panturrilha E <input id="pantE" type="number" step="0.1"></label>
+        </div>
+
+        <div class="actions">
+          <button type="submit">Salvar registro</button>
+          <button id="clearAll" type="button">Limpar todos</button>
+        </div>
+      </form>
+
+      <section id="records">
+        <h2>Registros</h2>
+        <ul id="recordList"></ul>
+        <div class="export">
+          <button id="exportCSV">Exportar CSV</button>
+          <button id="exportJSON">Exportar JSON</button>
+        </div>
+      </section>
+    </section>
+
+    <section class="right">
+      <div class="card">
+        <h2>Avatar</h2>
+        <div id="avatarWrap">
+          <!-- SVG avatar inline -->
+          <svg id="avatar" viewBox="0 0 200 500" xmlns="http://www.w3.org/2000/svg">
+            <!-- body silhouette -->
+            <rect x="70" y="20" width="60" height="100" rx="20" fill="#eee" stroke="#ccc"/>
+            <rect x="60" y="120" width="80" height="140" rx="40" fill="#eee" stroke="#ccc"/>
+            <rect x="75" y="260" width="50" height="160" rx="25" fill="#eee" stroke="#ccc"/>
+            <!-- labels -->
+            <text id="label-peito" x="100" y="45" text-anchor="middle" font-size="8" fill="#222">Peito: -</text>
+            <text id="label-cintura" x="100" y="150" text-anchor="middle" font-size="8" fill="#222">Cintura: -</text>
+            <text id="label-quadril" x="100" y="230" text-anchor="middle" font-size="8" fill="#222">Quadril: -</text>
+            <text id="label-bracoD" x="40" y="80" text-anchor="middle" font-size="7" fill="#222">BD: -</text>
+            <text id="label-bracoE" x="160" y="80" text-anchor="middle" font-size="7" fill="#222">BE: -</text>
+            <text id="label-coxaD" x="80" y="320" text-anchor="middle" font-size="7" fill="#222">CD: -</text>
+            <text id="label-coxaE" x="120" y="320" text-anchor="middle" font-size="7" fill="#222">CE: -</text>
+            <text id="label-pantD" x="80" y="420" text-anchor="middle" font-size="7" fill="#222">PD: -</text>
+            <text id="label-pantE" x="120" y="420" text-anchor="middle" font-size="7" fill="#222">PE: -</text>
+            <text id="label-peso" x="100" y="480" text-anchor="middle" font-size="9" fill="#0b6">Peso: -</text>
+          </svg>
+        </div>
+        <p class="hint">Avatar simples: clique em um registro para atualizar.</p>
+      </div>
+
+      <div class="card">
+        <h2>Gráficos de evolução</h2>
+        <canvas id="chartMeasures" height="260"></canvas>
+        <p class="hint">Mostra evolução do peso e perímetros selecionados.</p>
+        <div class="chart-controls">
+          <label><input type="checkbox" class="ch-measure" value="peso" checked> Peso</label>
+          <label><input type="checkbox" class="ch-measure" value="peito" checked> Peito</label>
+          <label><input type="checkbox" class="ch-measure" value="cintura" checked> Cintura</label>
+          <label><input type="checkbox" class="ch-measure" value="quadril" checked> Quadril</label>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer>
+    <small>Protótipo inteligente · Desenvolvido pra você — visão: dados + UX com poucos cliques.</small>
+  </footer>
+
+  <script src="app.js"></script>
+  <script>
+    if ("serviceWorker" in navigator) {
+      navigator.serviceWorker.register("service-worker.js")
+        .then(() => console.log("Service Worker registrado"))
+        .catch(err => console.error("Erro no SW:", err));
+    }
+  </script>
+</body>
+</html>

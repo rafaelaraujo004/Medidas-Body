@@ -1,0 +1,21 @@
+{
+  "name": "Perimetria & Evolu\u00e7\u00e3o",
+  "short_name": "Perimetria",
+  "start_url": "index.html",
+  "display": "standalone",
+  "background_color": "#0b6",
+  "theme_color": "#0b6",
+  "orientation": "portrait",
+  "icons": [
+    {
+      "src": "https://cdn-icons-png.flaticon.com/512/711/711769.png",
+      "sizes": "192x192",
+      "type": "image/png"
+    },
+    {
+      "src": "https://cdn-icons-png.flaticon.com/512/711/711769.png",
+      "sizes": "512x512",
+      "type": "image/png"
+    }
+  ]
+}
