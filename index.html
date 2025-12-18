@@ -2,104 +2,439 @@
 <html lang="pt-BR">
 <head>
   <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width,initial-scale=1" />
-  <title>Perimetria & Evolução</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, user-scalable=yes" />
+  <meta name="description" content="Aplicativo de perimetria e evolução corporal - Registre suas medidas e acompanhe seu progresso" />
+  <title>Perimetria & Evolução | Acompanhe seu Progresso</title>
   <link rel="stylesheet" href="styles.css" />
   <link rel="manifest" href="manifest.json">
-  <meta name="theme-color" content="#0b6">
+  <meta name="theme-color" content="#00b894">
   <!-- Chart.js CDN -->
   <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
 </head>
 <body>
   <header>
-    <h1>Perimetria & Evolução</h1>
-    <p class="sub">Registre medidas, visualize evolução e veja o avatar com medidas.</p>
+    <h1>📏 Medidas Corporais</h1>
+    <p class="sub">Acompanhe sua evolução de forma simples e visual</p>
   </header>
 
   <main class="container">
+    <!-- Welcome Guide -->
+    <div id="welcomeGuide" class="welcome-guide">
+      <div class="guide-content">
+        <div class="guide-header">
+          <h2>🎯 Como usar o app</h2>
+          <button id="closeGuide" class="btn-close" type="button" aria-label="Fechar guia">✕</button>
+        </div>
+        <div class="guide-body">
+          <div class="guide-step">
+            <span class="step-icon">📅</span>
+            <div class="step-content">
+              <h3>1. Preencha</h3>
+              <p>Adicione a data e seu peso</p>
+            </div>
+          </div>
+          <div class="guide-step">
+            <span class="step-icon">📏</span>
+            <div class="step-content">
+              <h3>2. Meça</h3>
+              <p>Registre as medidas das partes do corpo com fita métrica</p>
+            </div>
+          </div>
+          <div class="guide-step">
+            <span class="step-icon">💾</span>
+            <div class="step-content">
+              <h3>3. Salve</h3>
+              <p>Clique em "Salvar registro" para armazenar seus dados</p>
+            </div>
+          </div>
+          <div class="guide-step">
+            <span class="step-icon">📊</span>
+            <div class="step-content">
+              <h3>4. Acompanhe</h3>
+              <p>Veja sua evolução nos gráficos e no avatar</p>
+            </div>
+          </div>
+          <div class="guide-tip">
+            <span class="tip-icon">💡</span>
+            <div class="tip-content">
+              <strong>Dica Profissional:</strong>
+              <p>Tire suas medidas sempre no mesmo horário e nas mesmas condições para resultados mais precisos!</p>
+            </div>
+          </div>
+        </div>
+        <button id="gotItBtn" class="btn-primary" type="button">Entendi, vamos começar! 🚀</button>
+      </div>
+    </div>
+
     <section class="left">
+      <!-- Quick Guide Card -->
+      <div class="quick-guide-card">
+        <div class="quick-guide-header" id="quickGuideToggle">
+          <div class="guide-title">
+            <span class="guide-emoji">👋</span>
+            <h3>Como usar:</h3>
+          </div>
+          <button type="button" class="toggle-btn" aria-label="Expandir/Recolher">
+            <span class="toggle-icon">▼</span>
+          </button>
+        </div>
+        <div class="quick-guide-body" id="quickGuideBody">
+          <ul class="instruction-list">
+            <li>
+              <span class="instruction-icon">📅</span>
+              <div>
+                <strong>Preencha</strong> a data e seu peso
+              </div>
+            </li>
+            <li>
+              <span class="instruction-icon">📏</span>
+              <div>
+                <strong>Meça</strong> as partes do corpo com fita métrica
+              </div>
+            </li>
+            <li>
+              <span class="instruction-icon">💾</span>
+              <div>
+                <strong>Salve</strong> o registro
+              </div>
+            </li>
+            <li>
+              <span class="instruction-icon">📊</span>
+              <div>
+                <strong>Acompanhe</strong> sua evolução nos gráficos
+              </div>
+            </li>
+          </ul>
+          <div class="quick-tip">
+            <span class="tip-badge">💡 Dica:</span>
+            <span>Tire suas medidas sempre no mesmo horário e nas mesmas condições</span>
+          </div>
+        </div>
+      </div>
+
       <form id="measureForm">
-        <h2>Novo registro</h2>
+        <h2>📝 Novo Registro</h2>
+        <div class="info-box">
+          ℹ️ Preencha a data e peso (obrigatórios) e as medidas que desejar
+        </div>
+        
         <div class="row">
-          <label>Data <input type="date" id="date" required></label>
-          <label>Peso (kg) <input type="number" step="0.1" id="peso" required></label>
+          <label>
+            <span class="label-text">Data *</span>
+            <input type="date" id="date" required>
+          </label>
+          <label>
+            <span class="label-text">Peso (kg) *</span>
+            <input type="number" step="0.1" id="peso" placeholder="Ex: 70.5" required>
+          </label>
         </div>
 
-        <h3>Perimetria (cm)</h3>
+        <h3>📐 Medidas (em centímetros)</h3>
+        <p class="hint-text">Use uma fita métrica e meça com o corpo relaxado</p>
+        
         <div class="grid">
-          <label>Peito <input id="peito" type="number" step="0.1"></label>
-          <label>Cintura <input id="cintura" type="number" step="0.1"></label>
-          <label>Quadril <input id="quadril" type="number" step="0.1"></label>
-          <label>Abdômen <input id="abdomen" type="number" step="0.1"></label>
+          <label>
+            <span class="label-text">🫁 Peito</span>
+            <input id="peito" type="number" step="0.1" placeholder="Ex: 95">
+          </label>
+          <label>
+            <span class="label-text">⌛ Cintura</span>
+            <input id="cintura" type="number" step="0.1" placeholder="Ex: 80">
+          </label>
+          <label>
+            <span class="label-text">🍑 Quadril</span>
+            <input id="quadril" type="number" step="0.1" placeholder="Ex: 98">
+          </label>
+          <label>
+            <span class="label-text">🔲 Abdômen</span>
+            <input id="abdomen" type="number" step="0.1" placeholder="Ex: 85">
+          </label>
 
-          <label>Braço D <input id="bracoD" type="number" step="0.1"></label>
-          <label>Braço E <input id="bracoE" type="number" step="0.1"></label>
+          <label>
+            <span class="label-text">💪 Braço Dir.</span>
+            <input id="bracoD" type="number" step="0.1" placeholder="Ex: 35">
+          </label>
+          <label>
+            <span class="label-text">💪 Braço Esq.</span>
+            <input id="bracoE" type="number" step="0.1" placeholder="Ex: 35">
+          </label>
 
-          <label>Coxa D <input id="coxaD" type="number" step="0.1"></label>
-          <label>Coxa E <input id="coxaE" type="number" step="0.1"></label>
+          <label>
+            <span class="label-text">🦵 Coxa Dir.</span>
+            <input id="coxaD" type="number" step="0.1" placeholder="Ex: 55">
+          </label>
+          <label>
+            <span class="label-text">🦵 Coxa Esq.</span>
+            <input id="coxaE" type="number" step="0.1" placeholder="Ex: 55">
+          </label>
 
-          <label>Panturrilha D <input id="pantD" type="number" step="0.1"></label>
-          <label>Panturrilha E <input id="pantE" type="number" step="0.1"></label>
+          <label>
+            <span class="label-text">🦿 Panturrilha D.</span>
+            <input id="pantD" type="number" step="0.1" placeholder="Ex: 38">
+          </label>
+          <label>
+            <span class="label-text">🦿 Panturrilha E.</span>
+            <input id="pantE" type="number" step="0.1" placeholder="Ex: 38">
+          </label>
         </div>
 
         <div class="actions">
-          <button type="submit">Salvar registro</button>
-          <button id="clearAll" type="button">Limpar todos</button>
+          <button type="submit" class="btn-primary">✅ Salvar Registro</button>
+          <button id="clearAll" type="button" class="btn-danger" title="Apagar todos os registros">🗑️ Limpar Todos</button>
         </div>
       </form>
 
       <section id="records">
-        <h2>Registros</h2>
+        <h2>📋 Histórico de Registros</h2>
+        <p class="hint-text">Clique em "Ver" para visualizar as medidas no avatar</p>
         <ul id="recordList"></ul>
         <div class="export">
-          <button id="exportCSV">Exportar CSV</button>
-          <button id="exportJSON">Exportar JSON</button>
+          <button id="exportCSV" title="Baixar dados em formato CSV">⬇️ Exportar CSV</button>
+          <button id="exportJSON" title="Baixar dados em formato JSON">⬇️ Exportar JSON</button>
         </div>
       </section>
     </section>
 
     <section class="right">
       <div class="card">
-        <h2>Avatar</h2>
+        <h2>👤 Visualização</h2>
         <div id="avatarWrap">
-          <!-- SVG avatar inline -->
+          <!-- SVG avatar - modelo 3D minimalista -->
           <svg id="avatar" viewBox="0 0 200 500" xmlns="http://www.w3.org/2000/svg">
-            <!-- body silhouette -->
-            <rect x="70" y="20" width="60" height="100" rx="20" fill="#eee" stroke="#ccc"/>
-            <rect x="60" y="120" width="80" height="140" rx="40" fill="#eee" stroke="#ccc"/>
-            <rect x="75" y="260" width="50" height="160" rx="25" fill="#eee" stroke="#ccc"/>
-            <!-- labels -->
-            <text id="label-peito" x="100" y="45" text-anchor="middle" font-size="8" fill="#222">Peito: -</text>
-            <text id="label-cintura" x="100" y="150" text-anchor="middle" font-size="8" fill="#222">Cintura: -</text>
-            <text id="label-quadril" x="100" y="230" text-anchor="middle" font-size="8" fill="#222">Quadril: -</text>
-            <text id="label-bracoD" x="40" y="80" text-anchor="middle" font-size="7" fill="#222">BD: -</text>
-            <text id="label-bracoE" x="160" y="80" text-anchor="middle" font-size="7" fill="#222">BE: -</text>
-            <text id="label-coxaD" x="80" y="320" text-anchor="middle" font-size="7" fill="#222">CD: -</text>
-            <text id="label-coxaE" x="120" y="320" text-anchor="middle" font-size="7" fill="#222">CE: -</text>
-            <text id="label-pantD" x="80" y="420" text-anchor="middle" font-size="7" fill="#222">PD: -</text>
-            <text id="label-pantE" x="120" y="420" text-anchor="middle" font-size="7" fill="#222">PE: -</text>
-            <text id="label-peso" x="100" y="480" text-anchor="middle" font-size="9" fill="#0b6">Peso: -</text>
+            <defs>
+              <!-- Gradientes modernos e limpos -->
+              <linearGradient id="bodyGrad" x1="30%" y1="0%" x2="70%" y2="0%">
+                <stop offset="0%" style="stop-color:#dfe6e9;stop-opacity:1" />
+                <stop offset="50%" style="stop-color:#f5f6fa;stop-opacity:1" />
+                <stop offset="100%" style="stop-color:#dfe6e9;stop-opacity:1" />
+              </linearGradient>
+              <linearGradient id="muscleHighlight" x1="20%" y1="0%" x2="80%" y2="0%">
+                <stop offset="0%" style="stop-color:#d1d8e0;stop-opacity:1" />
+                <stop offset="50%" style="stop-color:#e8eef5;stop-opacity:1" />
+                <stop offset="100%" style="stop-color:#d1d8e0;stop-opacity:1" />
+              </linearGradient>
+              <filter id="subtleShadow">
+                <feGaussianBlur in="SourceAlpha" stdDeviation="2"/>
+                <feOffset dx="0" dy="2" result="offsetblur"/>
+                <feComponentTransfer>
+                  <feFuncA type="linear" slope="0.15"/>
+                </feComponentTransfer>
+                <feMerge>
+                  <feMergeNode/>
+                  <feMergeNode in="SourceGraphic"/>
+                </feMerge>
+              </filter>
+            </defs>
+            
+            <!-- CABEÇA -->
+            <g id="head-group" filter="url(#subtleShadow)">
+              <ellipse cx="100" cy="25" rx="18" ry="22" fill="url(#bodyGrad)" stroke="#b2bec3" stroke-width="2"/>
+              <ellipse cx="95" cy="23" rx="2" ry="2.5" fill="#636e72"/>
+              <ellipse cx="105" cy="23" rx="2" ry="2.5" fill="#636e72"/>
+              <path d="M 95 32 Q 100 33 105 32" stroke="#636e72" stroke-width="1.5" fill="none" stroke-linecap="round"/>
+            </g>
+            
+            <!-- PESCOÇO -->
+            <g id="neck-group">
+              <path d="M 92 42 L 108 42 L 106 58 L 94 58 Z" fill="url(#bodyGrad)" stroke="#b2bec3" stroke-width="2"/>
+            </g>
+            
+            <!-- OMBROS -->
+            <g id="shoulders-group" filter="url(#subtleShadow)">
+              <ellipse cx="72" cy="75" rx="17" ry="23" fill="url(#muscleHighlight)" stroke="#b2bec3" stroke-width="2"/>
+              <ellipse cx="128" cy="75" rx="17" ry="23" fill="url(#muscleHighlight)" stroke="#b2bec3" stroke-width="2"/>
+            </g>
+            
+            <!-- PEITORAIS - ESCALÁVEL -->
+            <g id="chest-group" filter="url(#subtleShadow)">
+              <ellipse id="peitoral-esq" cx="87" cy="80" rx="18" ry="24" fill="url(#bodyGrad)" stroke="#b2bec3" stroke-width="2"/>
+              <ellipse id="peitoral-dir" cx="113" cy="80" rx="18" ry="24" fill="url(#bodyGrad)" stroke="#b2bec3" stroke-width="2"/>
+              <line x1="100" y1="60" x2="100" y2="100" stroke="#dfe6e9" stroke-width="2"/>
+            </g>
+            
+            <!-- TRONCO/ABDÔMEN - ESCALÁVEL -->
+            <g id="abdomen-group" filter="url(#subtleShadow)">
+              <rect id="abdomen-core" x="82" y="105" width="36" height="88" rx="16" fill="url(#bodyGrad)" stroke="#b2bec3" stroke-width="2"/>
+              <line x1="100" y1="108" x2="100" y2="190" stroke="#d1d8e0" stroke-width="2"/>
+              <!-- Definição abdominal sutil -->
+              <line x1="85" y1="130" x2="115" y2="130" stroke="#dfe6e9" stroke-width="1.5"/>
+              <line x1="85" y1="150" x2="115" y2="150" stroke="#dfe6e9" stroke-width="1.5"/>
+              <line x1="85" y1="170" x2="115" y2="170" stroke="#dfe6e9" stroke-width="1.5"/>
+            </g>
+            
+            <!-- BRAÇOS - ESCALÁVEIS -->
+            <!-- Braço Direito -->
+            <g id="arm-d-group" filter="url(#subtleShadow)">
+              <ellipse id="biceps-d" cx="56" cy="105" rx="12" ry="22" fill="url(#muscleHighlight)" stroke="#b2bec3" stroke-width="2"/>
+              <ellipse id="antebraco-d" cx="52" cy="145" rx="10" ry="20" fill="url(#bodyGrad)" stroke="#b2bec3" stroke-width="2"/>
+              <ellipse cx="50" cy="172" rx="6" ry="8" fill="#e8eef5" stroke="#b2bec3" stroke-width="1.5"/>
+            </g>
+            
+            <!-- Braço Esquerdo -->
+            <g id="arm-e-group" filter="url(#subtleShadow)">
+              <ellipse id="biceps-e" cx="144" cy="105" rx="12" ry="22" fill="url(#muscleHighlight)" stroke="#b2bec3" stroke-width="2"/>
+              <ellipse id="antebraco-e" cx="148" cy="145" rx="10" ry="20" fill="url(#bodyGrad)" stroke="#b2bec3" stroke-width="2"/>
+              <ellipse cx="150" cy="172" rx="6" ry="8" fill="#e8eef5" stroke="#b2bec3" stroke-width="1.5"/>
+            </g>
+            
+            <!-- CINTURA - ESCALÁVEL -->
+            <g id="waist-group">
+              <rect id="cintura-core" x="88" y="193" width="24" height="32" rx="10" fill="url(#bodyGrad)" stroke="#b2bec3" stroke-width="2"/>
+            </g>
+            
+            <!-- QUADRIL - ESCALÁVEL -->
+            <g id="hip-group" filter="url(#subtleShadow)">
+              <ellipse id="quadril-shape" cx="100" cy="238" rx="22" ry="20" fill="url(#muscleHighlight)" stroke="#b2bec3" stroke-width="2"/>
+            </g>
+            
+            <!-- COXAS - ESCALÁVEIS -->
+            <g id="thigh-d-group" filter="url(#subtleShadow)">
+              <ellipse id="coxa-d" cx="88" cy="295" rx="15" ry="48" fill="url(#bodyGrad)" stroke="#b2bec3" stroke-width="2"/>
+              <line x1="88" y1="258" x2="88" y2="338" stroke="#d1d8e0" stroke-width="1.5"/>
+            </g>
+            
+            <g id="thigh-e-group" filter="url(#subtleShadow)">
+              <ellipse id="coxa-e" cx="112" cy="295" rx="15" ry="48" fill="url(#bodyGrad)" stroke="#b2bec3" stroke-width="2"/>
+              <line x1="112" y1="258" x2="112" y2="338" stroke="#d1d8e0" stroke-width="1.5"/>
+            </g>
+            
+            <!-- JOELHOS -->
+            <ellipse cx="88" cy="348" rx="12" ry="9" fill="#e8eef5" stroke="#b2bec3" stroke-width="2"/>
+            <ellipse cx="112" cy="348" rx="12" ry="9" fill="#e8eef5" stroke="#b2bec3" stroke-width="2"/>
+            
+            <!-- PANTURRILHAS - ESCALÁVEIS -->
+            <g id="calf-d-group" filter="url(#subtleShadow)">
+              <ellipse id="pant-d-top" cx="87" cy="380" rx="13" ry="23" fill="url(#muscleHighlight)" stroke="#b2bec3" stroke-width="2"/>
+              <ellipse id="pant-d-bot" cx="86" cy="415" rx="10" ry="24" fill="url(#bodyGrad)" stroke="#b2bec3" stroke-width="2"/>
+            </g>
+            
+            <g id="calf-e-group" filter="url(#subtleShadow)">
+              <ellipse id="pant-e-top" cx="113" cy="380" rx="13" ry="23" fill="url(#muscleHighlight)" stroke="#b2bec3" stroke-width="2"/>
+              <ellipse id="pant-e-bot" cx="114" cy="415" rx="10" ry="24" fill="url(#bodyGrad)" stroke="#b2bec3" stroke-width="2"/>
+            </g>
+            
+            <!-- TORNOZELOS -->
+            <rect x="82" y="442" width="8" height="10" rx="3" fill="#dfe6e9" stroke="#b2bec3" stroke-width="1.5"/>
+            <rect x="110" y="442" width="8" height="10" rx="3" fill="#dfe6e9" stroke="#b2bec3" stroke-width="1.5"/>
+            
+            <!-- PÉS -->
+            <ellipse cx="86" cy="460" rx="11" ry="7" fill="#b2bec3" stroke="#636e72" stroke-width="2"/>
+            <ellipse cx="114" cy="460" rx="11" ry="7" fill="#b2bec3" stroke="#636e72" stroke-width="2"/>
+            
+            <!-- LINHAS INDICADORAS E LABELS COM DESCRIÇÃO -->
+            
+            <!-- PEITO -->
+            <line x1="70" y1="80" x2="130" y2="80" stroke="#00b894" stroke-width="2" opacity="0.6"/>
+            <line x1="70" y1="80" x2="65" y2="75" stroke="#00b894" stroke-width="1.5" opacity="0.6"/>
+            <line x1="130" y1="80" x2="135" y2="75" stroke="#00b894" stroke-width="1.5" opacity="0.6"/>
+            <rect x="75" y="63" width="50" height="16" rx="3" fill="#00b894" opacity="0.9"/>
+            <text id="label-peito" x="100" y="72" text-anchor="middle" font-size="8" font-weight="bold" fill="#fff">PEITO</text>
+            <text id="label-peito-valor" x="100" y="79" text-anchor="middle" font-size="7" font-weight="normal" fill="#fff">- cm</text>
+            
+            <!-- CINTURA -->
+            <line x1="82" y1="145" x2="35" y2="145" stroke="#00b894" stroke-width="1.5" opacity="0.6"/>
+            <circle cx="82" cy="145" r="2" fill="#00b894"/>
+            <rect x="2" y="138" width="30" height="14" rx="3" fill="#00b894" opacity="0.9"/>
+            <text id="label-cintura" x="17" y="147" text-anchor="middle" font-size="7" font-weight="bold" fill="#fff">CINTURA</text>
+            <text id="label-cintura-valor" x="17" y="153" text-anchor="middle" font-size="6" fill="#fff">- cm</text>
+            
+            <!-- ABDÔMEN -->
+            <line x1="118" y1="165" x2="165" y2="165" stroke="#00b894" stroke-width="1.5" opacity="0.6"/>
+            <circle cx="118" cy="165" r="2" fill="#00b894"/>
+            <rect x="168" y="159" width="30" height="14" rx="3" fill="#00b894" opacity="0.9"/>
+            <text id="label-abdomen" x="183" y="167" text-anchor="middle" font-size="7" font-weight="bold" fill="#fff">ABDÔMEN</text>
+            <text id="label-abdomen-valor" x="183" y="173" text-anchor="middle" font-size="6" fill="#fff">- cm</text>
+            
+            <!-- QUADRIL -->
+            <line x1="78" y1="240" x2="122" y2="240" stroke="#00b894" stroke-width="2" opacity="0.6"/>
+            <line x1="78" y1="240" x2="73" y2="245" stroke="#00b894" stroke-width="1.5" opacity="0.6"/>
+            <line x1="122" y1="240" x2="127" y2="245" stroke="#00b894" stroke-width="1.5" opacity="0.6"/>
+            <rect x="75" y="246" width="50" height="16" rx="3" fill="#00b894" opacity="0.9"/>
+            <text id="label-quadril" x="100" y="254" text-anchor="middle" font-size="8" font-weight="bold" fill="#fff">QUADRIL</text>
+            <text id="label-quadril-valor" x="100" y="261" text-anchor="middle" font-size="7" fill="#fff">- cm</text>
+            
+            <!-- BRAÇO DIREITO -->
+            <line x1="56" y1="105" x2="20" y2="95" stroke="#636e72" stroke-width="1.5" opacity="0.6"/>
+            <circle cx="56" cy="105" r="2" fill="#636e72"/>
+            <rect x="2" y="88" width="35" height="14" rx="3" fill="#636e72" opacity="0.9"/>
+            <text id="label-bracoD" x="19.5" y="96" text-anchor="middle" font-size="7" font-weight="bold" fill="#fff">BRAÇO D</text>
+            <text id="label-bracoD-valor" x="19.5" y="102" text-anchor="middle" font-size="6" fill="#fff">- cm</text>
+            
+            <!-- BRAÇO ESQUERDO -->
+            <line x1="144" y1="105" x2="180" y2="95" stroke="#636e72" stroke-width="1.5" opacity="0.6"/>
+            <circle cx="144" cy="105" r="2" fill="#636e72"/>
+            <rect x="163" y="88" width="35" height="14" rx="3" fill="#636e72" opacity="0.9"/>
+            <text id="label-bracoE" x="180.5" y="96" text-anchor="middle" font-size="7" font-weight="bold" fill="#fff">BRAÇO E</text>
+            <text id="label-bracoE-valor" x="180.5" y="102" text-anchor="middle" font-size="6" fill="#fff">- cm</text>
+            
+            <!-- COXA DIREITA -->
+            <line x1="73" y1="295" x2="35" y2="295" stroke="#636e72" stroke-width="1.5" opacity="0.6"/>
+            <circle cx="73" cy="295" r="2" fill="#636e72"/>
+            <rect x="5" y="288" width="28" height="14" rx="3" fill="#636e72" opacity="0.9"/>
+            <text id="label-coxaD" x="19" y="296" text-anchor="middle" font-size="7" font-weight="bold" fill="#fff">COXA D</text>
+            <text id="label-coxaD-valor" x="19" y="302" text-anchor="middle" font-size="6" fill="#fff">- cm</text>
+            
+            <!-- COXA ESQUERDA -->
+            <line x1="127" y1="295" x2="165" y2="295" stroke="#636e72" stroke-width="1.5" opacity="0.6"/>
+            <circle cx="127" cy="295" r="2" fill="#636e72"/>
+            <rect x="167" y="288" width="28" height="14" rx="3" fill="#636e72" opacity="0.9"/>
+            <text id="label-coxaE" x="181" y="296" text-anchor="middle" font-size="7" font-weight="bold" fill="#fff">COXA E</text>
+            <text id="label-coxaE-valor" x="181" y="302" text-anchor="middle" font-size="6" fill="#fff">- cm</text>
+            
+            <!-- PANTURRILHA DIREITA -->
+            <line x1="74" y1="395" x2="35" y2="395" stroke="#636e72" stroke-width="1.5" opacity="0.6"/>
+            <circle cx="74" cy="395" r="2" fill="#636e72"/>
+            <rect x="2" y="388" width="31" height="14" rx="3" fill="#636e72" opacity="0.9"/>
+            <text id="label-pantD" x="17.5" y="396" text-anchor="middle" font-size="7" font-weight="bold" fill="#fff">PANT. D</text>
+            <text id="label-pantD-valor" x="17.5" y="402" text-anchor="middle" font-size="6" fill="#fff">- cm</text>
+            
+            <!-- PANTURRILHA ESQUERDA -->
+            <line x1="126" y1="395" x2="165" y2="395" stroke="#636e72" stroke-width="1.5" opacity="0.6"/>
+            <circle cx="126" cy="395" r="2" fill="#636e72"/>
+            <rect x="167" y="388" width="31" height="14" rx="3" fill="#636e72" opacity="0.9"/>
+            <text id="label-pantE" x="182.5" y="396" text-anchor="middle" font-size="7" font-weight="bold" fill="#fff">PANT. E</text>
+            <text id="label-pantE-valor" x="182.5" y="402" text-anchor="middle" font-size="6" fill="#fff">- cm</text>
+            
+            <!-- PESO -->
+            <rect x="70" y="470" width="60" height="20" rx="4" fill="#0984e3" opacity="0.95"/>
+            <text id="label-peso" x="100" y="481" text-anchor="middle" font-size="10" font-weight="bold" fill="#fff">PESO</text>
+            <text id="label-peso-valor" x="100" y="489" text-anchor="middle" font-size="8" fill="#fff">- kg</text>
           </svg>
         </div>
-        <p class="hint">Avatar simples: clique em um registro para atualizar.</p>
+        <p class="hint">💡 Clique em "Ver" em um registro para atualizar o avatar</p>
       </div>
 
       <div class="card">
-        <h2>Gráficos de evolução</h2>
-        <canvas id="chartMeasures" height="260"></canvas>
-        <p class="hint">Mostra evolução do peso e perímetros selecionados.</p>
+        <h2>📊 Evolução</h2>
+        <p class="hint-text">Selecione quais medidas deseja acompanhar no gráfico:</p>
         <div class="chart-controls">
-          <label><input type="checkbox" class="ch-measure" value="peso" checked> Peso</label>
-          <label><input type="checkbox" class="ch-measure" value="peito" checked> Peito</label>
-          <label><input type="checkbox" class="ch-measure" value="cintura" checked> Cintura</label>
-          <label><input type="checkbox" class="ch-measure" value="quadril" checked> Quadril</label>
+          <label class="checkbox-label">
+            <input type="checkbox" class="ch-measure" value="peso" checked>
+            <span>⚖️ Peso</span>
+          </label>
+          <label class="checkbox-label">
+            <input type="checkbox" class="ch-measure" value="peito" checked>
+            <span>🫁 Peito</span>
+          </label>
+          <label class="checkbox-label">
+            <input type="checkbox" class="ch-measure" value="cintura" checked>
+            <span>⌛ Cintura</span>
+          </label>
+          <label class="checkbox-label">
+            <input type="checkbox" class="ch-measure" value="quadril" checked>
+            <span>🍑 Quadril</span>
+          </label>
         </div>
+        <canvas id="chartMeasures" height="260"></canvas>
       </div>
     </section>
   </main>
 
+  <!-- Help Button -->
+  <button id="helpButton" class="help-button" type="button" aria-label="Ajuda"></button>
+
   <footer>
-    <small>Protótipo inteligente · Desenvolvido pra você — visão: dados + UX com poucos cliques.</small>
+    <small>App de Medidas Corporais · Simples e eficaz 💪</small>
   </footer>
 
   <script src="app.js"></script>
